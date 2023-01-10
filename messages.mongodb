@@ -1,0 +1,32 @@
+// create the collection with the validator
+db.createCollection('messages', {
+    validator: {
+        bsonType: 'object',
+        //the  required fields, messages cannot be created without these fields
+        required: ['text', 'user', 'likes'],
+        properties: {
+            text: {
+                bsonType: 'string',
+                description: 'Must be a string and is required'
+            },
+            user: {
+                bsonType: 'string',
+                description: 'Must be a string and is required'
+            },
+            likes: {
+                bsonType: 'int',
+                minimum: 0,
+                description: 'Must be an integer greater or equal to 0'
+            },
+            // array definition
+            bsonType: ['object'],
+            items: {
+                bsonType: ['object'],
+                // comments are optional but if a comment is added two fields are required
+                required: ['comment', 'user'],
+                additionalproperties: false,
+            }
+            
+        }
+    }
+})
