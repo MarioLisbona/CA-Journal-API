@@ -1,9 +1,13 @@
 import express from 'express'
-import { EntryModel } from '../db.js'
+import { CategoryModel, EntryModel } from '../db.js'
 
 const router = express.Router()
 
 router.get('/', async (req, res) => res.send(await EntryModel.find().populate({path: 'category', select: ['name'] })))
+
+// removing the __v version from the returned data
+
+
 
 router.get('/:id', async (req, res) => {
   try {
@@ -58,15 +62,17 @@ router.post('/', async (req, res) => {
   try {
   // 1. Create a new entry object with values passed in from the request
   const { category, content } = req.body
+  const  categoryObject = await CategoryModel.findOne({ name: category })
+  const newEntry = { category: categoryObject._id, content}
   // Validation/sanitize
-  const newEntry = { category, content }
+  // const newEntry = { category, content }
   // 2. Push the new entry to the entries array
   // entries.push(newEntry)
 
   const insertedEntry = await EntryModel.create(newEntry)
 
   // 3. Send the new entry with 201 status
-  res.status(201).send(insertedEntry)
+  res.status(201).send(await insertedEntry.populate({path: 'category', select: ['name'] }))
   }
   catch (err) {
     res.status(500).send({ error: err.message })

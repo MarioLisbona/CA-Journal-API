@@ -21,7 +21,8 @@ console.log('Inserted categories')
 const entries = [
   { category: cats[0], content: 'Hello!' },
   { category: cats[1], content: 'Express is cool!' },
-  { category: cats[2], content: 'Another day at the office' }
+  { category: cats[2], content: 'Another day at the office' },
+  { category: cats[3], content: 'Another post in the \'other\' category' }
 ]
 
 await EntryModel.insertMany(entries)

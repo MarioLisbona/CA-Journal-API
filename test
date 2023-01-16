@@ -1,0 +1,1 @@
+// await EntryModel.find().select('-__v').exec((err, data) => console.log(data))
